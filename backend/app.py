@@ -1,9 +1,7 @@
-import eventlet
-eventlet.monkey_patch()
 from flask import Flask, jsonify
 from flask_cors import CORS
 from flask_migrate import Migrate
-from extensions import db, socketio
+from extensions import db
 from config import DATABASE_URL
 from routes.user_routes import user_bp
 
@@ -15,15 +13,12 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 db.init_app(app)
 from models import CachedSummary, CachedEvent
 migrate = Migrate(app, db)
-socketio.init_app(app)
 
 app.register_blueprint(user_bp, url_prefix="/api")
-
-import sockets.events  # registers socket event handlers
 
 @app.route("/health")
 def health():
     return jsonify({"status": "ok"})
 
 if __name__ == "__main__":
-    socketio.run(app, host="0.0.0.0", port=5000, debug=True, use_reloader=False)
+    app.run(host="0.0.0.0", port=5000, debug=True)

@@ -16,4 +16,5 @@ class CachedEvent(db.Model):
     event_type = db.Column(db.String(64))
     repo_name = db.Column(db.String(255))
     payload = db.Column(db.JSON)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    github_created_at = db.Column(db.DateTime)  # NEW: GitHub's real event timestamp
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)  # when WE cached it (keep for debugging)
