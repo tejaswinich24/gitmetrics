@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useEventsPolling } from "./hooks/useEventsPolling";
 import ActivityFeed from "./components/ActivityFeed";
+import LanguageBreakdown from "./components/LanguageBreakdown";
+import ContributorTrend from "./components/ContributorTrend";
 
 function App() {
   const [username, setUsername] = useState("torvalds");
@@ -64,6 +66,12 @@ function App() {
           </p>
         </div>
       )}
+
+      {summary && !loading && summary.languages && (
+        <LanguageBreakdown languages={summary.languages} />
+      )}
+
+      <ContributorTrend events={events} />
 
       <ActivityFeed events={events} connected={connected} />
     </div>
